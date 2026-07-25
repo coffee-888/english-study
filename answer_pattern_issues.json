@@ -1,0 +1,338 @@
+[
+  {
+    "id": 70,
+    "topic": "名词",
+    "subTopic": "名词综合",
+    "question": "My mother bought two ______ in the supermarket.",
+    "options": [
+      "kilos of meat",
+      "kilos of meats",
+      "kilo of meat",
+      "kilo of meats"
+    ],
+    "answer": 0,
+    "explanation": "two kilos of meat 表示\"两公斤肉\"，kilo 变复数，meat 不可数不变。",
+    "type": "two_plural",
+    "detail": "two 后接可数名词复数，但答案 kilos of meat 不是复数"
+  },
+  {
+    "id": 148,
+    "topic": "代词",
+    "subTopic": "不定代词",
+    "question": "There are two books on the desk. ______ of them are mine.",
+    "options": [
+      "All",
+      "Both",
+      "Neither",
+      "None"
+    ],
+    "answer": 1,
+    "explanation": "两本书都……，表示\"两者都\"用 both。",
+    "type": "two_plural",
+    "detail": "two 后接可数名词复数，但答案 both 不是复数"
+  },
+  {
+    "id": 173,
+    "topic": "数词",
+    "subTopic": "基数词/序数词",
+    "question": "Today is her ______ birthday.",
+    "options": [
+      "twenty-one",
+      "twenty-first",
+      "the twenty-first",
+      "a twenty-first"
+    ],
+    "answer": 1,
+    "explanation": "表示\"第几个生日\"用序数词，21 的序数词是 twenty-first。",
+    "type": "ordinal",
+    "detail": "birthday 前用序数词，答案 twenty-first 不像序数词"
+  },
+  {
+    "id": 203,
+    "topic": "形容词",
+    "subTopic": "比较级和最高级的变化规则",
+    "question": "He is ______ boy in our class.",
+    "options": [
+      "the worst",
+      "worst",
+      "worse",
+      "more bad"
+    ],
+    "answer": 0,
+    "explanation": "形容词最高级前通常加 the，bad 的最高级是 worst。",
+    "type": "superlative_boy",
+    "detail": "in our class 表范围，应用最高级，答案 the worst 不对"
+  },
+  {
+    "id": 205,
+    "topic": "形容词",
+    "subTopic": "比较级和最高级的变化规则",
+    "question": "He is ______ boy in our class.",
+    "options": [
+      "the most",
+      "most",
+      "more",
+      "more many"
+    ],
+    "answer": 0,
+    "explanation": "形容词最高级前通常加 the，many 的最高级是 most。",
+    "type": "superlative_boy",
+    "detail": "in our class 表范围，应用最高级，答案 the most 不对"
+  },
+  {
+    "id": 207,
+    "topic": "形容词",
+    "subTopic": "比较级和最高级的变化规则",
+    "question": "He is ______ boy in our class.",
+    "options": [
+      "the least",
+      "least",
+      "less",
+      "more little"
+    ],
+    "answer": 0,
+    "explanation": "形容词最高级前通常加 the，little 的最高级是 least。",
+    "type": "superlative_boy",
+    "detail": "in our class 表范围，应用最高级，答案 the least 不对"
+  },
+  {
+    "id": 217,
+    "topic": "形容词",
+    "subTopic": "原级/比较级/最高级的用法规则",
+    "question": "He is ______ of the two boys.",
+    "options": [
+      "tall",
+      "taller",
+      "the taller",
+      "the tallest"
+    ],
+    "answer": 2,
+    "explanation": "两者中\"较……的一个\"用\"the + 比较级\"。",
+    "type": "two_plural",
+    "detail": "two 后接可数名词复数，但答案 the taller 不是复数"
+  },
+  {
+    "id": 228,
+    "topic": "副词",
+    "subTopic": "比较级和最高级的变化规则",
+    "question": "Of all the students, Tom runs ______.",
+    "options": [
+      "worst",
+      "worse",
+      "badly",
+      "the worst"
+    ],
+    "answer": 0,
+    "explanation": "of all 表示范围，要用最高级，badly 的最高级是 worst。",
+    "type": "superlative_adv",
+    "detail": "of all 表范围，应用最高级，答案 worst 不像最高级"
+  },
+  {
+    "id": 230,
+    "topic": "副词",
+    "subTopic": "比较级和最高级的变化规则",
+    "question": "Of all the students, Tom runs ______.",
+    "options": [
+      "least",
+      "less",
+      "little",
+      "the least"
+    ],
+    "answer": 0,
+    "explanation": "of all 表示范围，要用最高级，little 的最高级是 least。",
+    "type": "superlative_adv",
+    "detail": "of all 表范围，应用最高级，答案 least 不像最高级"
+  },
+  {
+    "id": 304,
+    "topic": "句型",
+    "subTopic": "There be",
+    "question": "There ______ two pens and a book on the desk.",
+    "options": [
+      "is",
+      "are",
+      "was",
+      "were"
+    ],
+    "answer": 1,
+    "explanation": "there be 句型遵循就近原则，two pens 是复数，所以用 are。",
+    "type": "two_plural",
+    "detail": "two 后接可数名词复数，但答案 are 不是复数"
+  },
+  {
+    "id": 325,
+    "topic": "简单句",
+    "subTopic": "特殊疑问句",
+    "question": "— ______ is the nearest hospital? — About two kilometers away.",
+    "options": [
+      "How long",
+      "How far",
+      "How often",
+      "How soon"
+    ],
+    "answer": 1,
+    "explanation": "由答语 About two kilometers away 可知询问距离，用 how far。",
+    "type": "two_plural",
+    "detail": "two 后接可数名词复数，但答案 how far 不是复数"
+  },
+  {
+    "id": 390,
+    "topic": "动词",
+    "subTopic": "非谓语动词",
+    "question": "I spent two hours ______ my homework.",
+    "options": [
+      "do",
+      "to do",
+      "doing",
+      "did"
+    ],
+    "answer": 2,
+    "explanation": "spend time (in) doing sth. 意为\"花费时间做某事\"。",
+    "type": "two_plural",
+    "detail": "two 后接可数名词复数，但答案 doing 不是复数"
+  },
+  {
+    "id": 413,
+    "topic": "动词时态",
+    "subTopic": "现在完成时",
+    "question": "She has ______ the book for two weeks.",
+    "options": [
+      "borrowed",
+      "lent",
+      "kept",
+      "bought"
+    ],
+    "answer": 2,
+    "explanation": "for two weeks 是时间段，要与延续性动词连用，keep 是延续性动词。",
+    "type": "two_plural",
+    "detail": "two 后接可数名词复数，但答案 kept 不是复数"
+  },
+  {
+    "id": 425,
+    "topic": "动词时态",
+    "subTopic": "常用的不规则动词默写",
+    "question": "I have never ______ such a beautiful place.",
+    "options": [
+      "gone",
+      "go",
+      "went",
+      "wented"
+    ],
+    "answer": 0,
+    "explanation": "现在完成时 have + 过去分词，go 的过去分词是 gone。",
+    "type": "present_perfect_pp",
+    "detail": "have never 后接过去分词，答案 gone 不像过去分词"
+  },
+  {
+    "id": 427,
+    "topic": "动词时态",
+    "subTopic": "常用的不规则动词默写",
+    "question": "I have never ______ such a beautiful place.",
+    "options": [
+      "come",
+      "came",
+      "comeing",
+      "comes"
+    ],
+    "answer": 0,
+    "explanation": "现在完成时 have + 过去分词，come 的过去分词是 come。",
+    "type": "present_perfect_pp",
+    "detail": "have never 后接过去分词，答案 come 不像过去分词"
+  },
+  {
+    "id": 457,
+    "topic": "动词时态",
+    "subTopic": "常用的不规则动词默写",
+    "question": "I have never ______ such a beautiful place.",
+    "options": [
+      "sung",
+      "sing",
+      "sang",
+      "sanged"
+    ],
+    "answer": 0,
+    "explanation": "现在完成时 have + 过去分词，sing 的过去分词是 sung。",
+    "type": "present_perfect_pp",
+    "detail": "have never 后接过去分词，答案 sung 不像过去分词"
+  },
+  {
+    "id": 459,
+    "topic": "动词时态",
+    "subTopic": "常用的不规则动词默写",
+    "question": "I have never ______ such a beautiful place.",
+    "options": [
+      "swum",
+      "swim",
+      "swam",
+      "swamed"
+    ],
+    "answer": 0,
+    "explanation": "现在完成时 have + 过去分词，swim 的过去分词是 swum。",
+    "type": "present_perfect_pp",
+    "detail": "have never 后接过去分词，答案 swum 不像过去分词"
+  },
+  {
+    "id": 670,
+    "topic": "副词",
+    "subTopic": "副词的位置",
+    "question": "______ did you finish the work? — In two hours.",
+    "options": [
+      "How long",
+      "How far",
+      "How often",
+      "How soon"
+    ],
+    "answer": 0,
+    "explanation": "由答语 In two hours 可知询问时间段，用 how long。",
+    "type": "two_plural",
+    "detail": "two 后接可数名词复数，但答案 how long 不是复数"
+  },
+  {
+    "id": 813,
+    "topic": "代词",
+    "subTopic": "不定代词",
+    "question": "______ of the two answers is correct. They are both wrong.",
+    "options": [
+      "Both",
+      "Neither",
+      "All",
+      "None"
+    ],
+    "answer": 1,
+    "explanation": "两个答案都不对，表示\"两者都不\"用 neither。",
+    "type": "two_plural",
+    "detail": "two 后接可数名词复数，但答案 neither 不是复数"
+  },
+  {
+    "id": 817,
+    "topic": "数词",
+    "subTopic": "分数词",
+    "question": "Two thirds of the students ______ girls.",
+    "options": [
+      "is",
+      "are",
+      "was",
+      "were"
+    ],
+    "answer": 1,
+    "explanation": "分数修饰可数名词复数时，谓语动词用复数。",
+    "type": "two_plural",
+    "detail": "two 后接可数名词复数，但答案 are 不是复数"
+  },
+  {
+    "id": 875,
+    "topic": "句型",
+    "subTopic": "There be",
+    "question": "There ______ two meetings this afternoon.",
+    "options": [
+      "will be",
+      "will have",
+      "are going to have",
+      "is going to be"
+    ],
+    "answer": 0,
+    "explanation": "this afternoon 提示将来，two meetings 是复数，但 there will be 不受数影响。",
+    "type": "two_plural",
+    "detail": "two 后接可数名词复数，但答案 will be 不是复数"
+  }
+]

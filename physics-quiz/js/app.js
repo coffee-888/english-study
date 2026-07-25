@@ -1,6 +1,25 @@
-// 中考英语语法测试 - 核心逻辑
+// {{SUBJECT}} 测试网站 - 核心逻辑（通用模板）
+// 使用方式：把下方 CONFIG 占位符替换为目标科目；题库写在 questions.js，知识模块写在 grammar.js
 (function () {
   'use strict';
+
+  // ============ 配置区（按科目替换占位符） ============
+  const CONFIG = {
+    subject: '中考物理',
+    exam: '中考',
+    storageKey: 'zhongkao_physics',
+    hasKnowledge: true,
+    knowledgeLabel: '物理知识',
+  };
+  CONFIG.examKeyPoint = CONFIG.exam + '重点';
+
+  const ICON_MAP = {
+    '声现象': '🔊', '光现象': '🌈', '透镜及其应用': '🔍', '物态变化': '🌡️',
+    '机械运动': '🏃', '质量与密度': '⚖️', '力': '💪', '运动和力': '🛞',
+    '压强': '🪨', '浮力': '🛟', '功和机械能': '⚡', '简单机械': '🔧',
+    '电流和电路': '🔌', '欧姆定律': '📐', '电功率': '💡',
+  };
+  function topicIcon(name) { return ICON_MAP[name] || '📘'; }
 
   // 状态
   const state = {
@@ -8,18 +27,16 @@
     quizMode: null, // 'topic' | 'random' | 'wrong'
     quizQuestions: [],
     currentIndex: 0,
-    answers: [], // { questionId, selected, correct, timeSpent }
+    answers: [],
     quizStartTime: 0,
     timerInterval: null,
     selectedOption: null,
     currentTopic: null,
-    // 弹窗状态
-    setupMode: null, // 'topic' | 'random'
+    setupMode: null,
     setupTopicName: null,
     setupCount: 20,
   };
 
-  // DOM 元素缓存
   const els = {};
 
   function cacheElements() {
@@ -64,10 +81,8 @@
     els.statsCorrect = document.getElementById('stats-correct');
     els.statsWrong = document.getElementById('stats-wrong');
     els.topicStats = document.getElementById('topic-stats');
-    // 语法知识
     els.grammarTopics = document.getElementById('grammar-topics');
     els.grammarContent = document.getElementById('grammar-content');
-    // 弹窗元素
     els.modalOverlay = document.getElementById('modal-setup');
     els.modalTitle = document.getElementById('modal-setup-title');
     els.modalDesc = document.getElementById('modal-setup-desc');
@@ -94,127 +109,93 @@
     return `${m}:${s}`;
   }
 
-  // localStorage 错题本
-  const STORAGE_KEY = 'zhongkao_grammar_wrongbook';
+  // localStorage 错题本 / 统计
+  const STORAGE_KEY = CONFIG.storageKey + '_wrongbook';
+  const STATS_KEY = CONFIG.storageKey + '_stats';
 
   function getWrongBook() {
-    try {
-      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-    } catch (e) {
-      return [];
-    }
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+    catch (e) { return []; }
   }
-
-  function saveWrongBook(wrongBook) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(wrongBook));
-  }
+  function saveWrongBook(wb) { localStorage.setItem(STORAGE_KEY, JSON.stringify(wb)); }
 
   function addToWrongBook(question, selected) {
-    const wrongBook = getWrongBook();
-    const exists = wrongBook.some(item => item.id === question.id);
-    if (!exists) {
-      wrongBook.push({
-        id: question.id,
-        question: question.question,
-        options: question.options,
-        answer: question.answer,
-        explanation: question.explanation,
-        knowledge: question.knowledge,
-        topic: question.topic,
-        subTopic: question.subTopic,
-        source: question.source,
-        wrongAnswer: selected,
-        addedAt: Date.now(),
-      });
-      saveWrongBook(wrongBook);
-    }
+    const wb = getWrongBook();
+    if (wb.some(item => String(item.id) === String(question.id))) return;
+    wb.push({
+      id: question.id, question: question.question, options: question.options,
+      answer: question.answer, explanation: question.explanation,
+      knowledge: question.knowledge, topic: question.topic,
+      subTopic: question.subTopic, source: question.source,
+      wrongAnswer: selected, addedAt: Date.now(),
+    });
+    saveWrongBook(wb);
   }
 
+  // 关键修复：题目 id 可能是数字，dataset.id 是字符串，必须统一转字符串比较
   function removeFromWrongBook(questionId) {
-    const targetId = String(questionId);
-    const wrongBook = getWrongBook().filter(item => String(item.id) !== targetId);
-    saveWrongBook(wrongBook);
+    const target = String(questionId);
+    const wb = getWrongBook().filter(item => String(item.id) !== target);
+    saveWrongBook(wb);
   }
 
-  // 统计数据
   function getStats() {
-    try {
-      return JSON.parse(localStorage.getItem('zhongkao_grammar_stats')) || {};
-    } catch (e) {
-      return {};
-    }
+    try { return JSON.parse(localStorage.getItem(STATS_KEY)) || {}; }
+    catch (e) { return {}; }
   }
-
-  function saveStats(stats) {
-    localStorage.setItem('zhongkao_grammar_stats', JSON.stringify(stats));
-  }
+  function saveStats(s) { localStorage.setItem(STATS_KEY, JSON.stringify(s)); }
 
   function recordAnswer(question, selected, correct) {
     const stats = getStats();
     if (!stats.byTopic) stats.byTopic = {};
     if (!stats.total) stats.total = { answered: 0, correct: 0 };
-
-    const topicKey = question.topic;
-    if (!stats.byTopic[topicKey]) {
-      stats.byTopic[topicKey] = { answered: 0, correct: 0 };
-    }
-
+    const key = question.topic;
+    if (!stats.byTopic[key]) stats.byTopic[key] = { answered: 0, correct: 0 };
     stats.total.answered += 1;
-    stats.byTopic[topicKey].answered += 1;
-    if (correct) {
-      stats.total.correct += 1;
-      stats.byTopic[topicKey].correct += 1;
-    }
+    stats.byTopic[key].answered += 1;
+    if (correct) { stats.total.correct += 1; stats.byTopic[key].correct += 1; }
     saveStats(stats);
   }
 
   // 视图切换
-  function switchView(viewName) {
-    state.currentView = viewName;
+  function switchView(name) {
+    state.currentView = name;
     els.views.forEach(v => v.classList.remove('active'));
-    const viewEl = document.getElementById(`view-${viewName}`);
-    if (viewEl) viewEl.classList.add('active');
+    const el = document.getElementById(`view-${name}`);
+    if (el) el.classList.add('active');
     els.navItems.forEach(n => {
-      n.classList.toggle('active', n.dataset.view === viewName ||
-        (viewName === 'quiz' && n.dataset.view === 'topics') ||
-        (viewName === 'result' && n.dataset.view === 'topics'));
+      n.classList.toggle('active', n.dataset.view === name ||
+        (name === 'quiz' && n.dataset.view === 'topics') ||
+        (name === 'result' && n.dataset.view === 'topics'));
     });
     window.scrollTo(0, 0);
   }
 
-  // 专题数据
-  const topicMeta = [
-    { name: '名词', icon: '🏷️', sub: '专有/普通、可数/不可数、复数、所有格' },
-    { name: '冠词', icon: '🔤', sub: '不定冠词、定冠词、零冠词' },
-    { name: '代词', icon: '👤', sub: '人称、指示、疑问、不定代词' },
-    { name: '数词', icon: '🔢', sub: '基数、序数、时间日期、分数小数等' },
-    { name: '形容词', icon: '🌈', sub: '比较级、最高级、原级用法' },
-    { name: '副词', icon: '⚡', sub: '比较级、最高级、原级用法' },
-    { name: '连词', icon: '🔗', sub: '并列、转折、选择、因果、从属' },
-    { name: '介词', icon: '📍', sub: '时间、地点、方式、原因、固定搭配' },
-    { name: '句子成分', icon: '🏗️', sub: '主谓宾表定状补' },
-    { name: '句型', icon: '📐', sub: '五大基本句型、There be、被动语态' },
-    { name: '简单句', icon: '✅', sub: '肯定/否定/疑问、感叹、祈使' },
-    { name: '复合句', icon: '📚', sub: '宾语从句、定语从句、状语从句' },
-    { name: '动词', icon: '🏃', sub: '实义、系动、助动、情态、非谓语' },
-    { name: '动词时态', icon: '⏰', sub: '各时态构成、标志词、will/be going to' },
-    { name: '动词语态', icon: '♻️', sub: '现在/过去完成、进行、过去将来' },
-  ];
-
-  function getTopicCount(topicName) {
-    return questions.filter(q => q.topic === topicName).length;
+  // 专题数据：从 questions 自动推导（保持首次出现顺序）
+  function getTopics() {
+    const seen = [];
+    const map = {};
+    questions.forEach(q => {
+      if (!map[q.topic]) { map[q.topic] = true; seen.push(q.topic); }
+    });
+    return seen.map(name => ({
+      name,
+      icon: topicIcon(name),
+      sub: `${getTopicCount(name)} 题`,
+    }));
+  }
+  function getTopicCount(name) {
+    return questions.filter(q => q.topic === name).length;
   }
 
-  // 渲染专题卡片
   function renderTopicCards(container, clickHandler) {
+    const stats = getStats();
     container.innerHTML = '';
-    topicMeta.forEach(topic => {
+    getTopics().forEach(topic => {
       const count = getTopicCount(topic.name);
-      const stats = getStats();
-      const topicStat = stats.byTopic && stats.byTopic[topic.name];
-      const answered = topicStat ? topicStat.answered : 0;
+      const ts = stats.byTopic && stats.byTopic[topic.name];
+      const answered = ts ? ts.answered : 0;
       const progress = count > 0 ? Math.min((answered / count) * 100, 100) : 0;
-
       const card = document.createElement('div');
       card.className = 'topic-card';
       card.innerHTML = `
@@ -229,20 +210,18 @@
     });
   }
 
-  // ==================== 弹窗：选题数 ====================
+  // ==================== 选题数弹窗 ====================
   function showSetupModal(mode, topicName) {
     state.setupMode = mode;
     state.setupTopicName = topicName;
-
     let maxCount, defaultCount, presets, title, desc;
-
     if (mode === 'topic') {
-      const topicQuestions = questions.filter(q => q.topic === topicName);
-      maxCount = Math.min(topicQuestions.length, 200);
+      const tq = questions.filter(q => q.topic === topicName);
+      maxCount = Math.min(tq.length, 200);
       defaultCount = Math.min(20, maxCount);
       presets = [10, 20, 30, 50, maxCount].filter(v => v <= maxCount && v > 0);
       title = `${topicName} 专项练习`;
-      desc = `该专题共有 ${topicQuestions.length} 题，选择本次练习题数`;
+      desc = `该专题共有 ${tq.length} 题，选择本次练习题数`;
     } else {
       maxCount = Math.min(questions.length, 200);
       defaultCount = Math.min(50, maxCount);
@@ -250,12 +229,8 @@
       title = '随机测试';
       desc = `题库共 ${questions.length} 题，选择本次测试题数`;
     }
-
-    // Remove duplicates from presets
     presets = [...new Set(presets)].sort((a, b) => a - b);
-
     state.setupCount = defaultCount;
-
     els.modalTitle.textContent = title;
     els.modalDesc.textContent = desc;
     els.modalCountSlider.min = 5;
@@ -263,8 +238,6 @@
     els.modalCountSlider.value = defaultCount;
     els.modalCountSlider.step = 5;
     els.modalCountDisplay.textContent = defaultCount;
-
-    // 渲染预设按钮
     els.modalPresets.innerHTML = '';
     presets.forEach(count => {
       const btn = document.createElement('button');
@@ -279,117 +252,72 @@
       });
       els.modalPresets.appendChild(btn);
     });
-
     els.modalOverlay.classList.remove('hidden');
   }
-
-  function hideSetupModal() {
-    els.modalOverlay.classList.add('hidden');
-  }
-
+  function hideSetupModal() { els.modalOverlay.classList.add('hidden'); }
   function onModalSliderChange() {
     const val = parseInt(els.modalCountSlider.value);
     state.setupCount = val;
     els.modalCountDisplay.textContent = val;
-    // 更新预设按钮激活状态
     els.modalPresets.querySelectorAll('.preset-btn').forEach(b => {
-      const btnVal = parseInt(b.textContent.replace('题', '').replace('全部', '0'));
-      const isActive = (b.textContent === '全部' && val === parseInt(els.modalCountSlider.max)) ||
-                       btnVal === val;
-      b.classList.toggle('active', isActive);
+      const bv = parseInt(b.textContent.replace('题', '').replace('全部', '0'));
+      const active = (b.textContent === '全部' && val === parseInt(els.modalCountSlider.max)) || bv === val;
+      b.classList.toggle('active', active);
     });
   }
-
   function onModalStart() {
     const count = state.setupCount;
     if (state.setupMode === 'topic') {
-      const topicQuestions = shuffle(questions.filter(q => q.topic === state.setupTopicName));
+      const tq = shuffle(questions.filter(q => q.topic === state.setupTopicName));
       state.currentTopic = state.setupTopicName;
-      startQuiz(topicQuestions.slice(0, Math.min(count, topicQuestions.length)), 'topic');
+      startQuiz(tq.slice(0, Math.min(count, tq.length)), 'topic');
     } else {
-      const selected = shuffle(questions).slice(0, Math.min(count, questions.length));
-      startQuiz(selected, 'random');
+      startQuiz(shuffle(questions).slice(0, Math.min(count, questions.length)), 'random');
     }
-    hideSetupModal();
-  }
-
-  function onModalCancel() {
     hideSetupModal();
   }
 
   // ==================== 练习流程 ====================
-
-  // 点击专题卡片 → 弹窗选题数
-  function onTopicCardClick(topicName) {
-    const topicQuestions = questions.filter(q => q.topic === topicName);
-    if (topicQuestions.length === 0) return;
-    showSetupModal('topic', topicName);
+  function onTopicCardClick(name) {
+    const tq = questions.filter(q => q.topic === name);
+    if (tq.length === 0) return;
+    showSetupModal('topic', name);
   }
-
-  // 开始随机测试 → 弹窗选题数
-  function onRandomTestClick() {
-    showSetupModal('random', null);
-  }
-
-  // 错题重做
+  function onRandomTestClick() { showSetupModal('random', null); }
   function startWrongRedo() {
-    const wrongBook = getWrongBook();
-    if (wrongBook.length === 0) {
-      alert('错题本为空，先去练习吧！');
-      return;
-    }
-    const wrongQuestions = wrongBook.map(item => ({
-      id: item.id,
-      topic: item.topic,
-      subTopic: item.subTopic,
-      source: item.source,
-      question: item.question,
-      options: item.options,
-      answer: item.answer,
-      explanation: item.explanation,
-      knowledge: item.knowledge,
-    }));
-    startQuiz(wrongQuestions, 'wrong');
+    const wb = getWrongBook();
+    if (wb.length === 0) { alert('错题本为空，先去练习吧！'); return; }
+    startQuiz(wb.map(item => ({
+      id: item.id, topic: item.topic, subTopic: item.subTopic, source: item.source,
+      question: item.question, options: item.options, answer: item.answer,
+      explanation: item.explanation, knowledge: item.knowledge,
+    })), 'wrong');
   }
-
-  // 启动测验
-  function startQuiz(quizQuestions, mode) {
+  function startQuiz(qs, mode) {
     state.quizMode = mode;
-    state.quizQuestions = quizQuestions;
+    state.quizQuestions = qs;
     state.currentIndex = 0;
     state.answers = [];
     state.selectedOption = null;
     state.quizStartTime = Date.now();
-
-    els.quizTitle.textContent = mode === 'topic'
-      ? `${state.currentTopic}专项练习`
-      : mode === 'random'
-        ? '随机测试'
-        : '错题重做';
-
+    els.quizTitle.textContent = mode === 'topic' ? `${state.currentTopic}专项练习`
+      : mode === 'random' ? '随机测试' : '错题重做';
     switchView('quiz');
     startTimer();
     renderQuestion();
   }
-
-  // 计时器
   function startTimer() {
     clearInterval(state.timerInterval);
     state.timerInterval = setInterval(() => {
-      const seconds = Math.floor((Date.now() - state.quizStartTime) / 1000);
-      els.quizTimer.textContent = `⏱ ${formatTime(seconds)}`;
+      const s = Math.floor((Date.now() - state.quizStartTime) / 1000);
+      els.quizTimer.textContent = `⏱ ${formatTime(s)}`;
     }, 1000);
   }
+  function stopTimer() { clearInterval(state.timerInterval); }
 
-  function stopTimer() {
-    clearInterval(state.timerInterval);
-  }
-
-  // 渲染题目
   function renderQuestion() {
     const q = state.quizQuestions[state.currentIndex];
     const total = state.quizQuestions.length;
-
     els.quizSubtitle.textContent = `第 ${state.currentIndex + 1} 题 / 共 ${total} 题`;
     els.progressBar.style.width = `${((state.currentIndex + 1) / total) * 100}%`;
     els.questionSource.textContent = `${q.topic} · ${q.subTopic}${q.source ? ' · ' + q.source : ''}`;
@@ -397,103 +325,60 @@
     els.answerArea.classList.add('hidden');
     els.btnNext.classList.add('hidden');
     els.btnSubmitQuiz.classList.add('hidden');
-
-    // 选项
     els.options.innerHTML = '';
     q.options.forEach((opt, idx) => {
-      const optionEl = document.createElement('div');
-      optionEl.className = 'option';
-      optionEl.dataset.index = idx;
-      optionEl.innerHTML = `<span class="option-key">${String.fromCharCode(65 + idx)}</span><span class="option-text">${opt}</span>`;
-      optionEl.addEventListener('click', () => selectOption(idx));
-      els.options.appendChild(optionEl);
+      const el = document.createElement('div');
+      el.className = 'option';
+      el.dataset.index = idx;
+      el.innerHTML = `<span class="option-key">${String.fromCharCode(65 + idx)}</span><span class="option-text">${opt}</span>`;
+      el.addEventListener('click', () => selectOption(idx));
+      els.options.appendChild(el);
     });
-
     state.selectedOption = null;
   }
+  function formatQuestion(text) { return text.replace(/_{2,}/g, '<span class="blank">____</span>'); }
 
-  function formatQuestion(text) {
-    return text.replace(/_{2,}/g, '<span class="blank">____</span>');
-  }
-
-  // 选择选项
   function selectOption(index) {
     if (state.selectedOption !== null) return;
     state.selectedOption = index;
-
     const q = state.quizQuestions[state.currentIndex];
     const correct = index === q.answer;
-
-    // UI 反馈
-    const optionEls = els.options.querySelectorAll('.option');
-    optionEls.forEach((el, idx) => {
+    els.options.querySelectorAll('.option').forEach((el, idx) => {
       el.classList.add('disabled');
       if (idx === q.answer) el.classList.add('correct');
       if (idx === index && idx !== q.answer) el.classList.add('wrong');
       if (idx === index) el.classList.add('selected');
     });
-
-    // 记录
-    state.answers.push({
-      questionId: q.id,
-      selected: index,
-      correct: correct,
-    });
-
+    state.answers.push({ questionId: q.id, selected: index, correct });
     recordAnswer(q, index, correct);
-
-    if (!correct) {
-      addToWrongBook(q, index);
-    } else {
-      removeFromWrongBook(q.id);
-    }
-
-    // 显示解析
+    if (!correct) addToWrongBook(q, index); else removeFromWrongBook(q.id);
     els.answerArea.classList.remove('hidden');
     els.answerStatus.className = 'answer-status ' + (correct ? 'correct' : 'wrong');
     els.answerStatus.textContent = correct ? '✅ 回答正确' : '❌ 回答错误';
     els.answerExplanation.textContent = q.explanation;
     els.answerKnowledge.textContent = `考点：${q.knowledge || q.subTopic}`;
-
-    // 按钮
-    if (state.currentIndex < state.quizQuestions.length - 1) {
-      els.btnNext.classList.remove('hidden');
-    } else {
-      els.btnSubmitQuiz.classList.remove('hidden');
-    }
-
+    if (state.currentIndex < state.quizQuestions.length - 1) els.btnNext.classList.remove('hidden');
+    else els.btnSubmitQuiz.classList.remove('hidden');
     updateDashboard();
   }
-
-  // 下一题
-  function nextQuestion() {
-    state.currentIndex += 1;
-    renderQuestion();
-  }
-
-  // 交卷
+  function nextQuestion() { state.currentIndex += 1; renderQuestion(); }
   function submitQuiz() {
     stopTimer();
     const total = state.quizQuestions.length;
     const correct = state.answers.filter(a => a.correct).length;
     const rate = total > 0 ? Math.round((correct / total) * 100) : 0;
     const seconds = Math.floor((Date.now() - state.quizStartTime) / 1000);
-
     els.resultScore.textContent = correct;
     els.resultTotal.textContent = total;
     els.resultRate.textContent = `正确率 ${rate}%`;
     els.resultTime.textContent = `用时 ${formatTime(seconds)}`;
     els.resultDetail.classList.add('hidden');
-
     switchView('result');
     updateDashboard();
   }
-
-  // 查看解析
   function renderResultDetail() {
     els.resultDetail.classList.remove('hidden');
     els.resultDetailList.innerHTML = '';
-
     state.answers.forEach((ans, idx) => {
       const q = state.quizQuestions[idx];
       const item = document.createElement('div');
@@ -513,23 +398,16 @@
     });
   }
 
-  // ==================== 错题本渲染（含移出按钮） ====================
+  // ==================== 错题本 ====================
   function renderWrongBook() {
-    const wrongBook = getWrongBook();
-    els.wrongCount.textContent = wrongBook.length;
+    const wb = getWrongBook();
+    els.wrongCount.textContent = wb.length;
     els.wrongbookList.innerHTML = '';
-
-    if (wrongBook.length === 0) {
-      els.wrongbookList.innerHTML = `
-        <div class="empty-state">
-          <div class="icon">🎉</div>
-          <p>暂无错题，继续加油！</p>
-        </div>
-      `;
+    if (wb.length === 0) {
+      els.wrongbookList.innerHTML = `<div class="empty-state"><div class="icon">🎉</div><p>暂无错题，继续加油！</p></div>`;
       return;
     }
-
-    wrongBook.forEach(item => {
+    wb.forEach(item => {
       const div = document.createElement('div');
       div.className = 'wrongbook-item';
       div.innerHTML = `
@@ -544,11 +422,9 @@
           <button class="btn-remove-wrong" data-id="${item.id}">移出错题</button>
         </div>
       `;
-      // 绑定移出按钮事件
       div.querySelector('.btn-remove-wrong').addEventListener('click', (e) => {
         e.stopPropagation();
-        const id = e.currentTarget.dataset.id;
-        removeFromWrongBook(id);
+        removeFromWrongBook(e.currentTarget.dataset.id);
         renderWrongBook();
         updateDashboard();
       });
@@ -556,7 +432,7 @@
     });
   }
 
-  // 统计页渲染
+  // 统计页
   function renderStats() {
     const stats = getStats();
     const total = questions.length;
@@ -564,37 +440,27 @@
     const correct = stats.total ? stats.total.correct : 0;
     const rate = answered > 0 ? Math.round((correct / answered) * 100) : 0;
     const wrong = getWrongBook().length;
-
     els.statsTotal.textContent = total;
     els.statsAnswered.textContent = answered;
     els.statsCorrect.textContent = rate + '%';
     els.statsWrong.textContent = wrong;
-
     els.topicStats.innerHTML = '<h3>各专题掌握情况</h3>';
-    topicMeta.forEach(topic => {
-      const topicStat = stats.byTopic && stats.byTopic[topic.name];
-      const tAnswered = topicStat ? topicStat.answered : 0;
-      const tCorrect = topicStat ? topicStat.correct : 0;
-      const tRate = tAnswered > 0 ? Math.round((tCorrect / tAnswered) * 100) : 0;
+    getTopics().forEach(topic => {
+      const ts = stats.byTopic && stats.byTopic[topic.name];
+      const tAns = ts ? ts.answered : 0;
+      const tCor = ts ? ts.correct : 0;
+      const tRate = tAns > 0 ? Math.round((tCor / tAns) * 100) : 0;
       const count = getTopicCount(topic.name);
-
       const row = document.createElement('div');
       row.className = 'topic-stat-row';
       row.innerHTML = `
-        <div class="topic-stat-info">
-          <h4>${topic.icon} ${topic.name}</h4>
-          <p>${topic.sub}</p>
-        </div>
-        <div class="topic-stat-numbers">
-          <div class="rate">${tRate}%</div>
-          <div class="count">已做 ${tAnswered} / ${count} 题</div>
-        </div>
+        <div class="topic-stat-info"><h4>${topic.icon} ${topic.name}</h4><p>${topic.sub}</p></div>
+        <div class="topic-stat-numbers"><div class="rate">${tRate}%</div><div class="count">已做 ${tAns} / ${count} 题</div></div>
       `;
       els.topicStats.appendChild(row);
     });
   }
 
-  // 更新仪表盘数据
   function updateDashboard() {
     const stats = getStats();
     const total = questions.length;
@@ -602,120 +468,77 @@
     const correct = stats.total ? stats.total.correct : 0;
     const rate = answered > 0 ? Math.round((correct / answered) * 100) : 0;
     const wrong = getWrongBook().length;
-
     els.totalQuestions.textContent = total;
     els.dashboardTotal.textContent = total;
     els.dashboardAnswered.textContent = answered;
     els.dashboardCorrect.textContent = rate + '%';
     els.dashboardWrong.textContent = wrong;
     els.wrongCount.textContent = wrong;
-
     renderTopicCards(els.topicPreview, onTopicCardClick);
     renderTopicCards(els.topicList, onTopicCardClick);
   }
 
-  // ==================== 语法知识渲染 ====================
+  // ==================== 知识模块 ====================
   function renderGrammar() {
-    if (typeof grammarData === 'undefined' || !grammarData.length) return;
-
-    // 专题切换芯片
+    if (!CONFIG.hasKnowledge || typeof grammarData === 'undefined' || !grammarData.length) return;
     els.grammarTopics.innerHTML = '';
-    grammarData.forEach((topicObj, idx) => {
+    grammarData.forEach((t, idx) => {
       const chip = document.createElement('button');
       chip.className = 'grammar-chip' + (idx === 0 ? ' active' : '');
-      chip.textContent = `${topicObj.icon} ${topicObj.topic}`;
+      chip.textContent = `${t.icon} ${t.topic}`;
       chip.addEventListener('click', () => {
         els.grammarTopics.querySelectorAll('.grammar-chip').forEach(c => c.classList.remove('active'));
         chip.classList.add('active');
-        renderGrammarTopic(topicObj);
+        renderGrammarTopic(t);
       });
       els.grammarTopics.appendChild(chip);
     });
-
     renderGrammarTopic(grammarData[0]);
   }
-
-  function renderGrammarTopic(topicObj) {
+  function renderGrammarTopic(t) {
     els.grammarContent.innerHTML = '';
-
     const header = document.createElement('div');
     header.className = 'grammar-topic-header';
-    header.innerHTML = `<h3>${topicObj.icon} ${topicObj.topic}</h3><span class="grammar-count">${topicObj.points.length} 个知识点</span>`;
+    header.innerHTML = `<h3>${t.icon} ${t.topic}</h3><span class="grammar-count">${t.points.length} 个知识点</span>`;
     els.grammarContent.appendChild(header);
-
     const nl2br = s => String(s).replace(/\n/g, '<br>');
-
-    topicObj.points.forEach(point => {
+    t.points.forEach(point => {
       const card = document.createElement('div');
       card.className = 'grammar-point';
-
-      const keyTag = point.key
-        ? '<span class="grammar-key-tag">中考重点</span>'
-        : '';
-
-      // 历年真题（数组：年份 + 省份 + 题目 + 答案 + 解析）
+      const keyTag = point.key ? `<span class="grammar-key-tag">${CONFIG.examKeyPoint}</span>` : '';
       let examHtml = '';
-      const exams = point.pastExam || [];
-      exams.forEach(ex => {
-        let optsHtml = '';
+      (point.pastExam || []).forEach(ex => {
+        let opts = '';
         if (ex.options && ex.options.length) {
-          optsHtml = '<div class="exam-options">' + ex.options.map((o, i) => {
-            const correct = i === ex.answer;
-            return `<span class="exam-opt${correct ? ' correct' : ''}">${String.fromCharCode(65 + i)}. ${o}</span>`;
-          }).join('') + '</div>';
+          opts = '<div class="exam-options">' + ex.options.map((o, i) =>
+            `<span class="exam-opt${i === ex.answer ? ' correct' : ''}">${String.fromCharCode(65 + i)}. ${o}</span>`).join('') + '</div>';
         }
         examHtml += `
           <div class="exam-item">
             <div class="exam-meta">📍 ${ex.year} 年 · ${ex.province}中考</div>
-            <div class="exam-q">${ex.q}</div>
-            ${optsHtml}
+            <div class="exam-q">${ex.q}</div>${opts}
             <div class="exam-ans">✅ 答案：${String.fromCharCode(65 + ex.answer)}　💡 解析：${ex.explain}</div>
-          </div>
-        `;
+          </div>`;
       });
-
       card.innerHTML = `
         <h4 class="grammar-point-title">${point.title} ${keyTag}</h4>
-        <div class="grammar-field grammar-rules">
-          <span class="grammar-label">📖 完整规则</span>
-          <p>${nl2br(point.rules)}</p>
-        </div>
-        <div class="grammar-field grammar-keypoints">
-          <span class="grammar-label">📌 关键知识点</span>
-          <p>${nl2br(point.keyPoints)}</p>
-        </div>
-        <div class="grammar-field">
-          <span class="grammar-label">💡 示例</span>
-          <p>${nl2br(point.example)}</p>
-        </div>
-        <div class="grammar-field grammar-error">
-          <span class="grammar-label">⚠️ 常见易错点</span>
-          <p>${nl2br(point.errorProne)}</p>
-        </div>
-        <div class="grammar-field grammar-high">
-          <span class="grammar-label">🔥 高频考点</span>
-          <p>${nl2br(point.highFreq)}</p>
-        </div>
-        <div class="grammar-field grammar-exam">
-          <span class="grammar-label">📝 历年真题</span>
-          ${examHtml}
-        </div>
+        <div class="grammar-field grammar-rules"><span class="grammar-label">📖 完整规则</span><p>${nl2br(point.rules)}</p></div>
+        <div class="grammar-field grammar-keypoints"><span class="grammar-label">📌 关键知识点</span><p>${nl2br(point.keyPoints)}</p></div>
+        <div class="grammar-field"><span class="grammar-label">💡 示例</span><p>${nl2br(point.example)}</p></div>
+        <div class="grammar-field grammar-error"><span class="grammar-label">⚠️ 常见易错点</span><p>${nl2br(point.errorProne)}</p></div>
+        <div class="grammar-field grammar-high"><span class="grammar-label">🔥 高频考点</span><p>${nl2br(point.highFreq)}</p></div>
+        <div class="grammar-field grammar-exam"><span class="grammar-label">📝 历年真题</span>${examHtml}</div>
       `;
       els.grammarContent.appendChild(card);
     });
   }
 
-  // ==================== 绑定事件 ====================
+  // ==================== 事件绑定 ====================
   function bindEvents() {
-    // 导航菜单（关键修复：随机测试不再 switchView，而是弹窗选题数）
     els.navItems.forEach(item => {
       item.addEventListener('click', () => {
         const view = item.dataset.view;
-        if (view === 'random') {
-          // 随机测试 → 弹窗选题数，不切换视图
-          onRandomTestClick();
-          return;
-        }
+        if (view === 'random') { onRandomTestClick(); return; } // 随机测试弹窗选题数，不切视图
         if (view === 'wrongbook') renderWrongBook();
         if (view === 'stats') renderStats();
         if (view === 'grammar') renderGrammar();
@@ -723,57 +546,34 @@
         switchView(view);
       });
     });
-
-    // 首页按钮
     document.getElementById('btn-random-quick').addEventListener('click', onRandomTestClick);
     document.getElementById('btn-topics-quick').addEventListener('click', () => switchView('topics'));
-
-    // 弹窗交互
     els.modalCountSlider.addEventListener('input', onModalSliderChange);
     els.modalStartBtn.addEventListener('click', onModalStart);
-    els.modalCancelBtn.addEventListener('click', onModalCancel);
-
-    // 答题流程
+    els.modalCancelBtn.addEventListener('click', hideSetupModal);
     els.btnNext.addEventListener('click', nextQuestion);
     els.btnSubmitQuiz.addEventListener('click', submitQuiz);
     els.btnQuit.addEventListener('click', () => {
-      if (confirm('确定要退出当前测试吗？进度将不会保存。')) {
-        stopTimer();
-        switchView('dashboard');
-        updateDashboard();
-      }
+      if (confirm('确定要退出当前测试吗？进度将不会保存。')) { stopTimer(); switchView('dashboard'); updateDashboard(); }
     });
-
     els.btnReview.addEventListener('click', renderResultDetail);
     els.btnRetry.addEventListener('click', () => {
-      if (state.quizMode === 'topic') {
-        showSetupModal('topic', state.currentTopic);
-      } else if (state.quizMode === 'random') {
-        onRandomTestClick();
-      } else if (state.quizMode === 'wrong') {
-        startWrongRedo();
-      }
+      if (state.quizMode === 'topic') showSetupModal('topic', state.currentTopic);
+      else if (state.quizMode === 'random') onRandomTestClick();
+      else if (state.quizMode === 'wrong') startWrongRedo();
     });
     els.btnBackHome.addEventListener('click', () => switchView('dashboard'));
-
-    // 错题本操作
     els.btnRedoWrong.addEventListener('click', startWrongRedo);
     els.btnClearWrong.addEventListener('click', () => {
-      if (confirm('确定要清空错题本吗？此操作不可恢复。')) {
-        localStorage.removeItem(STORAGE_KEY);
-        renderWrongBook();
-        updateDashboard();
-      }
+      if (confirm('确定要清空错题本吗？此操作不可恢复。')) { localStorage.removeItem(STORAGE_KEY); renderWrongBook(); updateDashboard(); }
     });
   }
 
-  // 初始化
   function init() {
     cacheElements();
     bindEvents();
     updateDashboard();
     switchView('dashboard');
   }
-
   document.addEventListener('DOMContentLoaded', init);
 })();

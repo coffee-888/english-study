@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>中考英语语法通关 - 智能题库</title>
+  <title>中考物理刷题网站</title>
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
   <div class="app-container">
     <aside class="sidebar">
       <div class="brand">
-        <div class="brand-icon">📚</div>
+        <div class="brand-icon">🔬</div>
         <div>
-          <h1>中考英语语法</h1>
-          <p>智能刷题 · 精准提分</p>
+          <h1>中考物理</h1>
+          <p>刷题巩固 · 直击考点</p>
         </div>
       </div>
       <nav class="nav-menu">
@@ -21,10 +21,10 @@
           <span>🏠</span> 首页概览
         </button>
         <button class="nav-item" data-view="topics">
-          <span>📖</span> 语法专题
+          <span>📖</span> 物理专题
         </button>
         <button class="nav-item" data-view="grammar">
-          <span>🧠</span> 语法知识
+          <span>🧠</span> 物理知识
         </button>
         <button class="nav-item" data-view="random">
           <span>🎲</span> 随机测试
@@ -46,11 +46,11 @@
       <!-- 首页概览 -->
       <section class="view active" id="view-dashboard">
         <div class="hero">
-          <h2>中考英语语法通关</h2>
-          <p>覆盖图片中全部语法专题，精选高频考点与历年真题，专项突破 + 随机检测 + 错题重练，助你稳步提分。</p>
+          <h2>中考物理</h2>
+          <p>覆盖中考物理 15 大专题、150 道精选选择题，配套答案详解与错题本，帮你巩固考点、查漏补缺。</p>
           <div class="hero-actions">
             <button class="btn btn-primary" id="btn-random-quick">开始随机测试</button>
-            <button class="btn btn-secondary" id="btn-topics-quick">选择专题练习</button>
+            <button class="btn btn-secondary" id="btn-topics-quick">选择物理专题练习</button>
           </div>
         </div>
         <div class="dashboard-stats">
@@ -74,20 +74,20 @@
         <div class="topic-grid" id="topic-preview"></div>
       </section>
 
-      <!-- 语法专题 -->
+      <!-- 专题 -->
       <section class="view" id="view-topics">
         <header class="view-header">
-          <h2>语法专题</h2>
-          <p>点击图片中任意专题开始专项练习</p>
+          <h2>物理专题</h2>
+          <p>点击任意物理专题开始专项练习</p>
         </header>
         <div class="topic-grid" id="topic-list"></div>
       </section>
 
-      <!-- 专题练习 / 随机测试 答题界面 -->
+      <!-- 答题界面 -->
       <section class="view" id="view-quiz">
         <header class="view-header quiz-header">
           <div>
-            <h2 id="quiz-title">专题练习</h2>
+            <h2 id="quiz-title">专项练习</h2>
             <p id="quiz-subtitle">第 1 题 / 共 20 题</p>
           </div>
           <div class="quiz-meta">
@@ -152,11 +152,11 @@
         <div class="wrongbook-list" id="wrongbook-list"></div>
       </section>
 
-      <!-- 语法知识 -->
+      <!-- 知识模块 -->
       <section class="view" id="view-grammar">
         <header class="view-header">
-          <h2>语法知识</h2>
-          <p>按专题梳理关键知识点，标注中考重点 · 示例 · 易错点 · 高频考点 · 历年真题</p>
+          <h2>物理知识</h2>
+          <p>按物理专题梳理关键知识点，标注中考重点 · 示例 · 易错点 · 高频考点 · 历年真题</p>
         </header>
         <div class="grammar-topics" id="grammar-topics"></div>
         <div class="grammar-content" id="grammar-content"></div>
@@ -193,7 +193,7 @@
     </main>
   </div>
 
-  <!-- 专题练习 / 随机测试 设置弹窗 -->
+  <!-- 选题数弹窗 -->
   <div class="modal-overlay hidden" id="modal-setup">
     <div class="modal-card">
       <h3 id="modal-setup-title">练习设置</h3>

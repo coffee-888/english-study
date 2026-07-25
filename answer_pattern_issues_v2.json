@@ -1,0 +1,146 @@
+[
+  {
+    "id": 205,
+    "topic": "形容词",
+    "subTopic": "比较级和最高级的变化规则",
+    "question": "He is ______ boy in our class.",
+    "options": [
+      "the most",
+      "most",
+      "more",
+      "more many"
+    ],
+    "answer": 0,
+    "explanation": "形容词最高级前通常加 the，many 的最高级是 most。",
+    "type": "superlative",
+    "detail": "in our class 表范围，应用 the + 最高级，答案 the most 不对"
+  },
+  {
+    "id": 207,
+    "topic": "形容词",
+    "subTopic": "比较级和最高级的变化规则",
+    "question": "He is ______ boy in our class.",
+    "options": [
+      "the least",
+      "least",
+      "less",
+      "more little"
+    ],
+    "answer": 0,
+    "explanation": "形容词最高级前通常加 the，little 的最高级是 least。",
+    "type": "superlative",
+    "detail": "in our class 表范围，应用 the + 最高级，答案 the least 不对"
+  },
+  {
+    "id": 224,
+    "topic": "副词",
+    "subTopic": "比较级和最高级的变化规则",
+    "question": "Of all the students, Tom runs ______.",
+    "options": [
+      "most slowly",
+      "more slowly",
+      "slowly",
+      "the most slowly"
+    ],
+    "answer": 0,
+    "explanation": "of all 表示范围，要用最高级，slowly 的最高级是 most slowly。",
+    "type": "superlative_adv",
+    "detail": "of all 表范围，应用最高级副词，答案 most slowly 不对"
+  },
+  {
+    "id": 647,
+    "topic": "副词",
+    "subTopic": "比较级和最高级的变化规则",
+    "question": "Of all the students, she runs ______.",
+    "options": [
+      "most slowly",
+      "more slowly",
+      "slowly",
+      "the most slowly"
+    ],
+    "answer": 0,
+    "explanation": "of all 表示范围，用最高级，slowly 的最高级是 most slowly。",
+    "type": "superlative_adv",
+    "detail": "of all 表范围，应用最高级副词，答案 most slowly 不对"
+  },
+  {
+    "id": 649,
+    "topic": "副词",
+    "subTopic": "比较级和最高级的变化规则",
+    "question": "Of all the students, she runs ______.",
+    "options": [
+      "most carefully",
+      "more carefully",
+      "carefully",
+      "the most carefully"
+    ],
+    "answer": 0,
+    "explanation": "of all 表示范围，用最高级，carefully 的最高级是 most carefully。",
+    "type": "superlative_adv",
+    "detail": "of all 表范围，应用最高级副词，答案 most carefully 不对"
+  },
+  {
+    "id": 651,
+    "topic": "副词",
+    "subTopic": "比较级和最高级的变化规则",
+    "question": "Of all the students, she runs ______.",
+    "options": [
+      "most clearly",
+      "more clearly",
+      "clearly",
+      "the most clearly"
+    ],
+    "answer": 0,
+    "explanation": "of all 表示范围，用最高级，clearly 的最高级是 most clearly。",
+    "type": "superlative_adv",
+    "detail": "of all 表范围，应用最高级副词，答案 most clearly 不对"
+  },
+  {
+    "id": 653,
+    "topic": "副词",
+    "subTopic": "比较级和最高级的变化规则",
+    "question": "Of all the students, she runs ______.",
+    "options": [
+      "most quietly",
+      "more quietly",
+      "quietly",
+      "the most quietly"
+    ],
+    "answer": 0,
+    "explanation": "of all 表示范围，用最高级，quietly 的最高级是 most quietly。",
+    "type": "superlative_adv",
+    "detail": "of all 表范围，应用最高级副词，答案 most quietly 不对"
+  },
+  {
+    "id": 669,
+    "topic": "副词",
+    "subTopic": "比较级和最高级的变化规则",
+    "question": "Of all the students, she runs ______.",
+    "options": [
+      "most often",
+      "more often",
+      "often",
+      "the most often"
+    ],
+    "answer": 0,
+    "explanation": "of all 表示范围，用最高级，often 的最高级是 most often。",
+    "type": "superlative_adv",
+    "detail": "of all 表范围，应用最高级副词，答案 most often 不对"
+  },
+  {
+    "id": 813,
+    "topic": "代词",
+    "subTopic": "不定代词",
+    "question": "______ of the two answers is correct. They are both wrong.",
+    "options": [
+      "Both",
+      "Neither",
+      "All",
+      "None"
+    ],
+    "answer": 1,
+    "explanation": "两个答案都不对，表示\"两者都不\"用 neither。",
+    "type": "neither_singular",
+    "detail": "neither of the two 表单数，谓语用单数，答案 neither 与 are 不一致"
+  }
+]

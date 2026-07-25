@@ -1,0 +1,178 @@
+[
+  {
+    "id": 21,
+    "topic": "名词",
+    "subTopic": "可数/不可数",
+    "question": "There ______ some news on the table.",
+    "options": [
+      "is",
+      "are",
+      "was",
+      "were"
+    ],
+    "answer": 0,
+    "explanation": "新闻（news）是不可数名词，作主语时谓语动词用单数形式。",
+    "type": "there_is_are",
+    "detail": "there be 后接复数名词，应用 are"
+  },
+  {
+    "id": 184,
+    "topic": "数词",
+    "subTopic": "百分数",
+    "question": "______ of the earth is covered with water.",
+    "options": [
+      "Seventy percent",
+      "Seventy percents",
+      "Seventy percentage",
+      "Seventy percentages"
+    ],
+    "answer": 0,
+    "explanation": "percent 没有复数形式，seventy percent 表示\"百分之七十\"。",
+    "type": "superlative_of",
+    "detail": "the ... of 结构常用最高级，不是比较级"
+  },
+  {
+    "id": 217,
+    "topic": "形容词",
+    "subTopic": "原级/比较级/最高级的用法规则",
+    "question": "He is ______ of the two boys.",
+    "options": [
+      "tall",
+      "taller",
+      "the taller",
+      "the tallest"
+    ],
+    "answer": 2,
+    "explanation": "两者中\"较……的一个\"用\"the + 比较级\"。",
+    "type": "superlative_of",
+    "detail": "the ... of 结构常用最高级，不是比较级"
+  },
+  {
+    "id": 420,
+    "topic": "动词时态",
+    "subTopic": "过去将来时",
+    "question": "I didn't know if he ______ come.",
+    "options": [
+      "will",
+      "would",
+      "is going to",
+      "was going to"
+    ],
+    "answer": 1,
+    "explanation": "主句 didn't know 是过去时，宾语从句用过去将来时 would。",
+    "type": "tense_continuous_mismatch",
+    "detail": "题干有现在进行时标志，但答案不是进行时"
+  },
+  {
+    "id": 629,
+    "topic": "句型",
+    "subTopic": "There be",
+    "question": "There ______ some bread and two eggs on the plate.",
+    "options": [
+      "is",
+      "are",
+      "was",
+      "were"
+    ],
+    "answer": 0,
+    "explanation": "there be 句型遵循就近原则，bread 是不可数名词，用 is。",
+    "type": "there_is_are",
+    "detail": "there be 后接复数名词，应用 are"
+  },
+  {
+    "id": 695,
+    "topic": "介词",
+    "subTopic": "地点/方位(高频)",
+    "question": "The bank is ______ the post office.",
+    "options": [
+      "over",
+      "in",
+      "at",
+      "to"
+    ],
+    "answer": 0,
+    "explanation": "over 意为\"在……正上方\"，表示方位关系。",
+    "type": "superlative_of",
+    "detail": "the ... of 结构常用最高级，不是比较级"
+  },
+  {
+    "id": 696,
+    "topic": "介词",
+    "subTopic": "地点/方位(高频)",
+    "question": "The bank is ______ the post office.",
+    "options": [
+      "under",
+      "in",
+      "at",
+      "to"
+    ],
+    "answer": 0,
+    "explanation": "under 意为\"在……正下方\"，表示方位关系。",
+    "type": "superlative_of",
+    "detail": "the ... of 结构常用最高级，不是比较级"
+  },
+  {
+    "id": 734,
+    "topic": "复合句",
+    "subTopic": "状语从句",
+    "question": "Although he is young, he knows a lot. This is a(n) ______ adverbial clause.",
+    "options": [
+      "time",
+      "condition",
+      "reason",
+      "concession"
+    ],
+    "answer": 3,
+    "explanation": "该从句表示让步关系。",
+    "type": "tense_continuous_mismatch",
+    "detail": "题干有现在进行时标志，但答案不是进行时"
+  },
+  {
+    "id": 813,
+    "topic": "代词",
+    "subTopic": "不定代词",
+    "question": "______ of the two answers is correct. They are both wrong.",
+    "options": [
+      "Both",
+      "Neither",
+      "All",
+      "None"
+    ],
+    "answer": 1,
+    "explanation": "两个答案都不对，表示\"两者都不\"用 neither。",
+    "type": "superlative_of",
+    "detail": "the ... of 结构常用最高级，不是比较级"
+  },
+  {
+    "id": 819,
+    "topic": "数词",
+    "subTopic": "百分数",
+    "question": "______ of the students in our class are girls.",
+    "options": [
+      "Fifty percent",
+      "Fifty percents",
+      "Fifty percentage",
+      "Fifty percentages"
+    ],
+    "answer": 0,
+    "explanation": "percent 没有复数形式。",
+    "type": "superlative_of",
+    "detail": "the ... of 结构常用最高级，不是比较级"
+  },
+  {
+    "id": 861,
+    "topic": "代词",
+    "subTopic": "不定代词",
+    "question": "______ of the twins has been to Beijing.",
+    "options": [
+      "Both",
+      "Neither",
+      "All",
+      "None"
+    ],
+    "answer": 1,
+    "explanation": "twins 是两者，由 has 可知用 neither 表示\"两者都不\"。",
+    "type": "superlative_of",
+    "detail": "the ... of 结构常用最高级，不是比较级"
+  }
+]

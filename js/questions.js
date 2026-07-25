@@ -27,11 +27,11 @@ const questions = [
     "options": [
       "place",
       "places",
-      "PLACE",
-      "a place"
+      "a place",
+      "the place"
     ],
     "answer": 1,
-    "explanation": "many 修饰可数名词复数，place 的复数形式是 places。",
+    "explanation": "many 修饰可数名词复数，place 的复数形式是 places。PLACE 只是大小写不同，不能算作不同选项。",
     "knowledge": "many 后接可数名词复数。"
   },
   {
@@ -1735,15 +1735,15 @@ const questions = [
     "topic": "代词",
     "subTopic": "人称代词",
     "source": "中考语法精选",
-    "question": "______ am a student.",
+    "question": "______ are a student.",
     "options": [
       "You",
-      "you",
       "your",
-      "yours"
+      "yours",
+      "yourself"
     ],
     "answer": 0,
-    "explanation": "句子缺少主语，要用人称代词主格 you。",
+    "explanation": "句子缺少主语，要用人称代词主格 you，且与 are 搭配。",
     "knowledge": "人称代词主格作主语。"
   },
   {
@@ -1799,7 +1799,7 @@ const questions = [
     "topic": "代词",
     "subTopic": "人称代词",
     "source": "中考语法精选",
-    "question": "______ am a student.",
+    "question": "______ is a student.",
     "options": [
       "He",
       "Him",
@@ -1807,7 +1807,7 @@ const questions = [
       "Mine"
     ],
     "answer": 0,
-    "explanation": "句子缺少主语，要用人称代词主格 he。",
+    "explanation": "句子缺少主语，要用人称代词主格 he，且与 is 搭配。",
     "knowledge": "人称代词主格作主语。"
   },
   {
@@ -1863,7 +1863,7 @@ const questions = [
     "topic": "代词",
     "subTopic": "人称代词",
     "source": "中考语法精选",
-    "question": "______ am a student.",
+    "question": "______ is a student.",
     "options": [
       "She",
       "Her",
@@ -1871,7 +1871,7 @@ const questions = [
       "Mine"
     ],
     "answer": 0,
-    "explanation": "句子缺少主语，要用人称代词主格 she。",
+    "explanation": "句子缺少主语，要用人称代词主格 she，且与 is 搭配。",
     "knowledge": "人称代词主格作主语。"
   },
   {
@@ -1927,7 +1927,7 @@ const questions = [
     "topic": "代词",
     "subTopic": "人称代词",
     "source": "中考语法精选",
-    "question": "______ am a student.",
+    "question": "______ is a student.",
     "options": [
       "It",
       "Its",
@@ -1935,7 +1935,7 @@ const questions = [
       "Yours"
     ],
     "answer": 0,
-    "explanation": "句子缺少主语，要用人称代词主格 it。",
+    "explanation": "句子缺少主语，要用人称代词主格 it，且与 is 搭配。",
     "knowledge": "人称代词主格作主语。"
   },
   {
@@ -1991,7 +1991,7 @@ const questions = [
     "topic": "代词",
     "subTopic": "人称代词",
     "source": "中考语法精选",
-    "question": "______ am a student.",
+    "question": "______ are students.",
     "options": [
       "We",
       "us",
@@ -1999,7 +1999,7 @@ const questions = [
       "ours"
     ],
     "answer": 0,
-    "explanation": "句子缺少主语，要用人称代词主格 we。",
+    "explanation": "句子缺少主语，要用人称代词主格 we，且与 are 搭配。",
     "knowledge": "人称代词主格作主语。"
   },
   {
@@ -2055,7 +2055,7 @@ const questions = [
     "topic": "代词",
     "subTopic": "人称代词",
     "source": "中考语法精选",
-    "question": "______ am a student.",
+    "question": "______ are students.",
     "options": [
       "They",
       "them",
@@ -2063,7 +2063,7 @@ const questions = [
       "theirs"
     ],
     "answer": 0,
-    "explanation": "句子缺少主语，要用人称代词主格 they。",
+    "explanation": "句子缺少主语，要用人称代词主格 they，且与 are 搭配。",
     "knowledge": "人称代词主格作主语。"
   },
   {
@@ -3271,7 +3271,7 @@ const questions = [
     "topic": "形容词",
     "subTopic": "比较级和最高级的变化规则",
     "source": "中考语法精选",
-    "question": "He is ______ boy in our class.",
+    "question": "He is ______ hard-working boy in our class.",
     "options": [
       "the most",
       "most",
@@ -3279,7 +3279,7 @@ const questions = [
       "more many"
     ],
     "answer": 0,
-    "explanation": "形容词最高级前通常加 the，many 的最高级是 most。",
+    "explanation": "形容词最高级前通常加 the，多音节形容词 hard-working 的最高级是 the most hard-working。",
     "knowledge": "形容词最高级的构成。"
   },
   {
@@ -3303,7 +3303,7 @@ const questions = [
     "topic": "形容词",
     "subTopic": "比较级和最高级的变化规则",
     "source": "中考语法精选",
-    "question": "He is ______ boy in our class.",
+    "question": "He is ______ hard-working boy in our class.",
     "options": [
       "the least",
       "least",
@@ -3311,7 +3311,7 @@ const questions = [
       "more little"
     ],
     "answer": 0,
-    "explanation": "形容词最高级前通常加 the，little 的最高级是 least。",
+    "explanation": "形容词最高级前通常加 the，多音节形容词 hard-working 的最高级可用 the least hard-working 表示最不努力。",
     "knowledge": "形容词最高级的构成。"
   },
   {
@@ -11434,12 +11434,12 @@ const questions = [
     "question": "He is a student. (改为一般疑问句)",
     "options": [
       "Is he a student?",
-      "is he a student?",
       "Is he a student??",
-      "Does he a student?"
+      "Does he a student?",
+      "He is a student?"
     ],
     "answer": 0,
-    "explanation": "一般疑问句将 be 动词提前",
+    "explanation": "一般疑问句将 be 动词 is 提前，句首字母大写。",
     "knowledge": "句型转换。"
   },
   {
@@ -11451,11 +11451,11 @@ const questions = [
     "options": [
       "She can't swim.",
       "She can not swim.",
-      "she can't swim.",
-      "She can't swim.?"
+      "She doesn't can swim.",
+      "She can't swims."
     ],
     "answer": 0,
-    "explanation": "情态动词否定加 not",
+    "explanation": "情态动词 can 的否定形式为 can't / can not，后面接动词原形 swim。",
     "knowledge": "句型转换。"
   },
   {
@@ -11466,12 +11466,12 @@ const questions = [
     "question": "They have finished the work. (改为否定句)",
     "options": [
       "They haven't finished the work.",
-      "They haven not finished the work.",
-      "they haven't finished the work.",
-      "They haven't finished the work.?"
+      "They haven't finish the work.",
+      "They don't have finished the work.",
+      "They has not finished the work."
     ],
     "answer": 0,
-    "explanation": "现在完成时否定在 have 后加 not",
+    "explanation": "现在完成时 haven't / have not + 过去分词 finished。",
     "knowledge": "句型转换。"
   },
   {
@@ -11482,12 +11482,12 @@ const questions = [
     "question": "He will go to Beijing. (改为一般疑问句)",
     "options": [
       "Will he go to Beijing?",
-      "will he go to beijing?",
-      "Will he go to Beijing??",
-      "Is he go to Beijing?"
+      "Is he go to Beijing?",
+      "Does he will go to Beijing?",
+      "Will he goes to Beijing?"
     ],
     "answer": 0,
-    "explanation": "will 提前构成一般疑问句",
+    "explanation": "will 提前构成一般疑问句，后面接动词原形 go。",
     "knowledge": "句型转换。"
   },
   {
@@ -14967,15 +14967,15 @@ const questions = [
     "topic": "代词",
     "subTopic": "人称代词",
     "source": "中考语法精选",
-    "question": "______ is my friend.",
+    "question": "______ are my friend.",
     "options": [
       "You",
-      "you",
       "your",
-      "yours"
+      "yours",
+      "yourself"
     ],
     "answer": 0,
-    "explanation": "句子缺少主语，用人称代词主格 you。",
+    "explanation": "句子缺少主语，要用人称代词主格 you，且与 are 搭配。",
     "knowledge": "人称代词主格作主语。"
   },
   {
@@ -15095,7 +15095,7 @@ const questions = [
     "topic": "代词",
     "subTopic": "人称代词",
     "source": "中考语法精选",
-    "question": "______ is my friend.",
+    "question": "______ are my friends.",
     "options": [
       "We",
       "us",
@@ -15103,7 +15103,7 @@ const questions = [
       "ours"
     ],
     "answer": 0,
-    "explanation": "句子缺少主语，用人称代词主格 we。",
+    "explanation": "句子缺少主语，要用人称代词主格 we，且与 are 搭配。",
     "knowledge": "人称代词主格作主语。"
   },
   {
@@ -15127,7 +15127,7 @@ const questions = [
     "topic": "代词",
     "subTopic": "人称代词",
     "source": "中考语法精选",
-    "question": "______ is my friend.",
+    "question": "______ are my friends.",
     "options": [
       "They",
       "them",
@@ -15135,7 +15135,7 @@ const questions = [
       "theirs"
     ],
     "answer": 0,
-    "explanation": "句子缺少主语，用人称代词主格 they。",
+    "explanation": "句子缺少主语，要用人称代词主格 they，且与 are 搭配。",
     "knowledge": "人称代词主格作主语。"
   },
   {
